@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class TorreHanoi {
     int[][] tabuleiro;
@@ -10,6 +11,14 @@ public class TorreHanoi {
     }
 
     void criarJogo(){
+        for(int i = 0; i<9; i++){
+            this.tabuleiro[0][i] = 9-i;
+        }
+
+        this.indiceTorres[0] = 9;
+    }
+
+    void criarJogoAleatorio(){
         Random numero = new Random();
 
         this.indiceTorres = new int[3];
@@ -26,7 +35,7 @@ public class TorreHanoi {
             for(int j=0; j<3; j++){
                 imprimirbloco(this.tabuleiro[j][i]);
             }
-            System.err.println();
+            System.out.println();
         }
     }
 
@@ -45,4 +54,62 @@ public class TorreHanoi {
         }
     }
 
+    void imprimirindices(){
+        System.out.println(indiceTorres[0]);
+        System.out.println(indiceTorres[1]);
+        System.out.println(indiceTorres[2]);
+    }
+
+    void verificarComando(){
+        Scanner entrada = new Scanner(System.in);
+        int torreInicial, torreDestino;
+
+        do {
+            System.out.print("Digite o numero da torre(1-3): ");
+            torreInicial = entrada.nextInt();
+
+            if(torreInicial < 1 || torreInicial > 3){
+                System.out.println("Numero invalido! fora dos limites");
+
+            } else if(indiceTorres[torreInicial-1] == 0){
+                System.out.println("Jogada invalida! Torre não possui elementos");
+            }
+
+        } while ((torreInicial < 1 || torreInicial > 3) || indiceTorres[torreInicial-1] == 0);
+
+
+        do {
+            System.out.print("Digite para que torre quer mover a peça: ");
+            torreDestino = entrada.nextInt();
+
+            if(torreDestino < 1 || torreDestino > 3){
+                System.out.println("Numero invalido! fora dos limites");
+
+            } else if(indiceTorres[torreDestino-1] == 0){
+                break;
+                
+            } else if(tabuleiro[torreInicial-1][indiceTorres[torreInicial-1]-1] > tabuleiro[torreDestino-1][indiceTorres[torreDestino-1]-1]){
+                System.out.println("Jogada invalida! peça da torre de destino é menor");
+            }
+
+        } while ((torreDestino < 1 || torreDestino > 3) || (tabuleiro[torreInicial-1][indiceTorres[torreInicial-1]-1] > tabuleiro[torreDestino-1][indiceTorres[torreDestino-1]-1]));
+
+        executarJogada(torreInicial-1, torreDestino-1);
+    }
+
+    void executarJogada(int torreInicial, int torreDestino){
+        if(torreInicial == torreDestino){
+            return;
+        }
+
+        tabuleiro[torreDestino][indiceTorres[torreDestino]] = tabuleiro[torreInicial][indiceTorres[torreInicial]-1];
+        tabuleiro[torreInicial][indiceTorres[torreInicial]-1] = 0;
+
+        indiceTorres[torreDestino]++;
+        indiceTorres[torreInicial]--;
+    }
+
+    boolean verificarVitoria(){
+        return this.tabuleiro[1][8] == 1 || this.tabuleiro[2][8] == 1;
+    }
 }

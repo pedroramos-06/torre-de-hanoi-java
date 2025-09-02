@@ -4,7 +4,11 @@ public class Principal {
 
         jogo.criarJogo();
 
-        jogo.imprimirJogo();
-    
+        do{
+            jogo.imprimirJogo();
+
+            jogo.verificarComando();
+        }while(!jogo.verificarVitoria());
+        
     }
 }
