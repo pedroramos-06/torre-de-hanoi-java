@@ -60,6 +60,42 @@ public class TorreHanoi {
         System.out.println(indiceTorres[2]);
     }
 
+    int obterTorreInicial(Scanner entrada){
+        int torreInicial;
+
+        while(true){
+            System.out.print("Digite o numero da torre(1-3): ");
+            torreInicial = entrada.nextInt();
+            
+            if(torreInicial < 1 || torreInicial > 3){
+                System.out.println("Numero invalido! fora dos limites");
+                continue;
+
+            } else if(indiceTorres[torreInicial-1] == 0){
+                System.out.println("Jogada invalida! Torre não possui elementos");
+                continue;
+            }
+
+            return torreInicial-1;
+        }
+    }
+
+    int obterTorreDestino(Scanner entrada){
+        int torreDestino;
+
+        while(true){
+            System.out.print("Digite para que torre quer mover a peça: ");
+            torreDestino = entrada.nextInt();
+
+            if(torreDestino < 1 || torreDestino > 3){
+                System.out.println("Numero invalido! fora dos limites");
+                continue;
+
+            }
+
+            return torreDestino-1;
+        }
+    }
     void verificarComando(){
         Scanner entrada = new Scanner(System.in);
         int torreInicial, torreDestino;
